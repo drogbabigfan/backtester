@@ -1,6 +1,5 @@
 import os
-from typing import Any
-
+from typing import Any, Union
 import pandas as pd
 from pandas import Series, DataFrame
 
