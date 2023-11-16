@@ -1,0 +1,39 @@
+from abc import ABCMeta, abstractmethod # abstract base class
+from scipy.spatial import distance
+import pandas as pd
+
+class DistanceLogic(metaclass=ABCMeta):
+    
+    @abstractmethod
+    def get_distance_matrix(self, dataframe: pd.DataFrame):
+        pass
+    
+
+class EuclideanDistance(DistanceLogic):
+    def get_distance_matrix(self, dataframe: pd.DataFrame):
+        distance_matrix = pd.DataFrame(index=dataframe.index, columns=dataframe.columns)
+        
+        for i in range(len(dataframe)):
+            row = dataframe.iloc[i]
+            x_pdist = distance.pdist(row, metric='euclidean')
+            distance_matrix.iloc[i] = x_pdist
+        
+        return distance_matrix
+    
+class ManhattanDistance(DistanceLogic):
+    def get_distance_matrix(self, dataframe: pd.DataFrame):
+        distance_matrix = pd.DataFrame(index=dataframe.index, columns=dataframe.columns)
+        
+        for i in range(len(dataframe)):
+            row = dataframe.iloc[i]
+            x_pdist = distance.pdist(row, metric='cityblock')
+            distance_matrix.iloc[i] = x_pdist
+        
+        return distance_matrix
+    
+class MahalanobisDistance(DistanceLogic):
+    def get_distance_matrix(self, dataframe: pd.DataFrame):
+        distance_matrix = pd.DataFrame(index=dataframe.index, columns=dataframe.columns)
+        # 각 row내분의 값이 x1,x2,x3,x4...가된다
+        
+        return distance_matrix

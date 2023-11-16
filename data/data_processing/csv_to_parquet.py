@@ -1,4 +1,4 @@
-import data.data_handler as data_handler
+import data.data_processing.data_handler as data_handler
 
 class CsvToParquet:
     def __init__(self):
