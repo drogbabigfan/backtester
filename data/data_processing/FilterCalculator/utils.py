@@ -27,15 +27,15 @@ class Utils:
     # 랭크 내의 상위 n% 추출
     def get_high_n_pct(self, raw_data: pd.DataFrame, pct: float):
         result = self.calculate_rank(raw_data)
-        max_rank = result.max(axis=1)
-        result = result <= max_rank * pct
+        result = result.apply(lambda x: x <= x.max() * pct, axis=1)
+        # result = result <= max_rank_df * pct
         return result
 
     # 랭크 내의 하위 n% 추출
     def get_low_n_pct(self, raw_data: pd.DataFrame, pct: float):
         result = self.calculate_rank(raw_data)
-        max_rank = result.max(axis=1)
-        result = result >= max_rank * pct
+        result = result.apply(lambda x: x >= x.max() * pct, axis=1)
+        # result = result < max_rank_df * pct
         return result
 
     def select_up_logic(self, df: pd.DataFrame, threshold: float):

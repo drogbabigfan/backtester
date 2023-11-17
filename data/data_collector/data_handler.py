@@ -10,6 +10,7 @@ class DataHandler:
         self.parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/parquet'
 
     def get_raw_data(self, file_name: str):
+        ## file_name 확장자까지 다 필요함
         raw_data_path = self.csv_path + f"/raw_data/{file_name}"
 
         if os.path.isfile(raw_data_path):

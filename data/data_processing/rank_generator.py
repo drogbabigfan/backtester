@@ -1,4 +1,4 @@
-from data.data_processing.data_handler import DataHandler
+from data.data_collector.data_handler import DataHandler
 import pandas as pd
 import os
 from multiprocessing import Pool, cpu_count

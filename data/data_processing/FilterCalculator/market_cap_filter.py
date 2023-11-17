@@ -1,5 +1,5 @@
-from data.data_processing.FilterCalculator.utils import Utils
 import pandas as pd
+from data.data_processing.FilterCalculator.utils import Utils
 
 
 class MarketCapFilter:
