@@ -1,4 +1,4 @@
-from data.data_collector.data_handler import DataHandler
+from data.data_processing.data_handler import DataHandler
 import pandas as pd
 import os
 from multiprocessing import Pool, cpu_count
@@ -14,7 +14,7 @@ class RankGenerator:
             return
 
         print(file_name, "처리 시작")
-        raw_data = self.data_handler.get_raw_data(file_name)
+        raw_data = self.data_handler.get_csv_raw_data(file_name)
         rank = self.data_handler.calculate_rank(raw_data)
         rank.to_csv(os.path.join(self.csv_path, "rank", f"{file_name}.csv"))
         print(file_name, "처리 완료")

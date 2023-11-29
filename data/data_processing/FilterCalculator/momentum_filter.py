@@ -9,7 +9,7 @@ from data.data_processing.FilterCalculator.utils import Utils
 #     - type4: Momentum 적용 -> Universe loc 연산 후 종목수 추출 -> 상위 n개 선택, 하위 n개 선택
 #     - type5: Momentum 적용 종목수 선택 and universe 적용
 
-class MomentumIndicator:
+class MomentumFilter:
     def __init__(self):
         self.util = Utils()
 
@@ -17,16 +17,14 @@ class MomentumIndicator:
         result = (raw_data / raw_data.shift(window) - 1) * 100
         return result
 
-    ## TODO: TEST 필요
     def get_type_one_momentum(self, universe: pd.DataFrame, price: pd.DataFrame, window: int, up_or_down: str,
                               threshold: float):
-        filterd_price = price.loc[universe]
+        filterd_price = price[universe]
         momentum = self.calculate_period_return(filterd_price, window)
         rank = self.util.calculate_rank(momentum)
         result = self.util.select_logic(rank, up_or_down, threshold)
         return result
 
-    ## TODO: TEST 필요
     def get_type_two_momentum(self, universe: pd.DataFrame, price: pd.DataFrame, window: int, up_or_down: str,
                               threshold: float):
         filtered_price = price * universe
@@ -35,8 +33,7 @@ class MomentumIndicator:
         result = self.util.select_logic(rank, up_or_down, threshold)
         return result
 
-    ## TODO: TEST 필요
-    def get_type_three_momentum(self, universe: pd.DataFrame, price: pd.DataFramem, window: int, up_or_down: str,
+    def get_type_three_momentum(self, universe: pd.DataFrame, price: pd.DataFrame, window: int, up_or_down: str,
                                 threshold: float):
         momentum = self.calculate_period_return(price, window)
         momentum_rank = self.util.calculate_rank(momentum)
@@ -44,21 +41,19 @@ class MomentumIndicator:
         result = self.util.select_logic(rank, up_or_down, threshold)
         return result
 
-    ## TODO: TEST 필요
     def get_type_four_momentum(self, universe: pd.DataFrame, price: pd.DataFrame, window: int, up_or_down: str,
                                threshold: float):
         momentum = self.calculate_period_return(price, window)
         momentum_rank = self.util.calculate_rank(momentum)
-        rank = momentum_rank.loc[universe]
+        rank = momentum_rank[universe]
         result = self.util.select_logic(rank, up_or_down, threshold)
         return result
 
-    ## TODO: TEST 필요
     def get_type_five_momentum(self, universe: pd.DataFrame, price: pd.DataFrame, widnow: int, up_or_down: str, threshold: float):
         momentum = self.calculate_period_return(price, widnow)
         momentum_rank = self.util.calculate_rank(momentum)
         rank = self.util.select_logic(momentum_rank, up_or_down, threshold)
-        result = rank and universe
+        result = rank & universe
         return result
 
     def get_calculate_return_plus(self, raw_data: pd.DataFrame, window: int):

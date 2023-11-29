@@ -1,7 +1,7 @@
 from unittest import TestCase
 import pandas as pd
 from data.data_processing.FilterCalculator.market_cap_filter import MarketCapFilter
-from data.data_collector.data_handler import DataHandler
+from data.data_processing.data_handler import DataHandler
 
 class TestMarketCapFilter(TestCase):
     def setUp(self):
@@ -40,7 +40,7 @@ class TestMarketCapFilter(TestCase):
         self.assertEqual(result['CompanyF'][4], True)
 
     def get_real_data(self):
-        raw_data = self.data_handler.get_raw_data("all_marcap.csv")
+        raw_data = self.data_handler.get_csv_raw_data("all_marcap.csv")
         return raw_data
 
     def get_test_data(self):

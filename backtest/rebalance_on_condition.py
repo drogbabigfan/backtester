@@ -1,10 +1,11 @@
-import bt
 from typing import Optional
+import bt
+from backtest.operation_types import Operation
 from backtest.rebalance_condition import RebalanceCondition
 
-## TODO: TEST 필요
+
 class RebalanceOnCondition(bt.Algo):
-    def __init__(self, condition_instance: RebalanceCondition, operation: Optional[str] = None):
+    def __init__(self, condition_instance: RebalanceCondition, operation: Optional[Operation] = None):
         self.condition_instance = condition_instance
         self.operation = operation
 

@@ -6,18 +6,24 @@ from pandas import Series, DataFrame
 
 class DataHandler:
     def __init__(self):
-        self.csv_path = os.path.dirname(os.path.abspath(__file__)) + '/csv'
-        self.parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/parquet'
+        self.csv_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/csv'
+        self.parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/parquet'
 
-    def get_raw_data(self, file_name: str):
+    def get_csv_raw_data(self, file_name: str):
         ## file_name 확장자까지 다 필요함
         raw_data_path = self.csv_path + f"/raw_data/{file_name}"
 
         if os.path.isfile(raw_data_path):
             raw_data = pd.read_csv(raw_data_path, index_col=0, header=0, encoding='utf-8-sig', dtype=str)
+
             columns = raw_data.columns.astype(str)
             raw_data.columns = columns
             raw_data = raw_data.astype(float)
+
+            idx = raw_data.index
+            idx = pd.to_datetime(idx)
+            raw_data.index = idx
+
             return raw_data
         else:
             print(f"{file_name} does not exist.")
@@ -25,6 +31,16 @@ class DataHandler:
     def read_file_list(self, folder_path: str):
         file_list = os.listdir(folder_path)
         return file_list
+
+    @staticmethod
+    def process_nan_to_zero(df: pd.DataFrame):
+        for column in df.columns:
+            first_valid_index = df[column].first_valid_index()
+
+            # 첫번째 유효값 이후의 nan값들만 0으로 변경
+            df.loc[first_valid_index:, column] = df.loc[first_valid_index:, column].fillna(0)
+
+        return df
 
     def remove_turnover(self, transaction_value_df: pd.DataFrame, marcap_df: pd.DataFrame, threshold: float):
         turnover_df = transaction_value_df / marcap_df
