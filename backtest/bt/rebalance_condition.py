@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-import exchange_calendars as xcals
 import pandas as pd
 import backtest.utils as utils
-from backtest.operation_types import Operation
+from backtest.bt.operation_types import Operation
 
 
 class RebalanceCondition(ABC):

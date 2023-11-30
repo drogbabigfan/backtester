@@ -5,36 +5,36 @@ class Utils:
     def __init__(self):
         pass
 
-    def calculate_rank(self, raw_data: pd.DataFrame):
+    def calculate_rank(self, raw_data: pd.DataFrame, ascending: bool = False):
         is_not_nan = raw_data.notnull()
         is_not_zero = raw_data != 0
         raw_data = raw_data[is_not_nan & is_not_zero]
-        result = raw_data.rank(axis=1, ascending=False, method='min')
+        result = raw_data.rank(axis=1, ascending=ascending, method='min')
         return result
 
     # 랭크 내의 상위 n개 추출
     def get_high_n_quantity(self, raw_data: pd.DataFrame, n: float):
-        result = self.calculate_rank(raw_data)
+        result = self.calculate_rank(raw_data, ascending=False)
         result = result <= n
         return result
 
     # 랭크 내의 하위 n개 추출
     def get_low_n_quantity(self, raw_data: pd.DataFrame, n: float):
-        result = self.calculate_rank(raw_data)
-        result = result >= n
+        result = self.calculate_rank(raw_data, ascending=True)
+        result = result <= n
         return result
 
     # 랭크 내의 상위 n% 추출
     def get_high_n_pct(self, raw_data: pd.DataFrame, pct: float):
-        result = self.calculate_rank(raw_data)
+        result = self.calculate_rank(raw_data, ascending=False)
         result = result.apply(lambda x: x <= x.max() * pct, axis=1)
         # result = result <= max_rank_df * pct
         return result
 
     # 랭크 내의 하위 n% 추출
     def get_low_n_pct(self, raw_data: pd.DataFrame, pct: float):
-        result = self.calculate_rank(raw_data)
-        result = result.apply(lambda x: x >= x.max() * pct, axis=1)
+        result = self.calculate_rank(raw_data, ascending=True)
+        result = result.apply(lambda x: x <= x.max() * pct, axis=1)
         # result = result < max_rank_df * pct
         return result
 

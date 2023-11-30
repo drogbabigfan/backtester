@@ -3,7 +3,7 @@ from unittest import TestCase
 import bt
 import pandas as pd
 
-from backtest.strategy_generator import StrategyGenerator
+from backtest.bt.strategy_generator import StrategyGenerator
 from data.data_processing.data_handler import DataHandler
 from data.data_processing.FilterCalculator.market_cap_filter import MarketCapFilter
 from data.data_processing.FilterCalculator.momentum_filter import MomentumFilter
@@ -17,19 +17,20 @@ class TestStrategyGenerator(TestCase):
         self.strategy_generator = StrategyGenerator()
 
     def test_create_weekly_first_buy_last_sell(self):
-        marcap_filter = self.get_market_cap_filter()
-        transaction_filter = self.get_transaction_filter()
-        universe = marcap_filter & transaction_filter
-
-        momentum_filter = self.get_momnentum_filter(universe)
-        # momentum_filter = self.get_momnentum_filter(marcap_filter)
-        ta_filter = self.get_ta_filter()
-
-        # select_df = marcap_filter & momentum_filter & transaction_filter & ta_filter
-        select_df = momentum_filter & ta_filter
+        select_df = self.get_select_df()
 
         strategy = self.strategy_generator.create_weekly_first_buy_last_sell("test", select_df=select_df)
 
+        self.run_bt(strategy)
+
+    def test_create_weekly_first_day(self):
+        select_df = self.get_select_df()
+
+        strategy = self.strategy_generator.create_weekly_first_day("test", select_df=select_df)
+
+        self.run_bt(strategy)
+
+    def run_bt(self, strategy):
         test = bt.Backtest(strategy, self.test_data)
         result = bt.run(test)
 
@@ -44,6 +45,15 @@ class TestStrategyGenerator(TestCase):
 
         traded_securities = transaction.index.get_level_values('Security').unique()
         print("traded_securities : ", traded_securities)
+
+    def get_select_df(self):
+        marcap_filter = self.get_market_cap_filter()
+        transaction_filter = self.get_transaction_filter()
+        universe = marcap_filter & transaction_filter
+        momentum_filter = self.get_momnentum_filter(universe)
+        ta_filter = self.get_ta_filter()
+        select_df = momentum_filter & ta_filter
+        return select_df
 
     def get_market_cap_filter(self) -> pd.DataFrame:
         market_cap_filter = MarketCapFilter()
