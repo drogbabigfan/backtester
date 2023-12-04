@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 import backtest.utils as utils
-from backtest.bt.operation_types import Operation
+from backtest.strategy.operation_types import Operation
 
 
 class RebalanceCondition(ABC):

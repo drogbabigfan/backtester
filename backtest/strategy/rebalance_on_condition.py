@@ -1,7 +1,7 @@
 from typing import Optional
 import bt
-from backtest.bt.operation_types import Operation
-from backtest.bt.rebalance_condition import RebalanceCondition
+from backtest.strategy.operation_types import Operation
+from backtest.strategy.rebalance_condition import RebalanceCondition
 
 
 class RebalanceOnCondition(bt.Algo):

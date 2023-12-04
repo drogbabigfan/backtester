@@ -1,8 +1,8 @@
 import bt
 import pandas as pd
-import backtest.bt.rebalance_condition as rebalance_condition
-from backtest.bt.rebalance_on_condition import RebalanceOnCondition
-from backtest.bt.operation_types import Operation
+import backtest.strategy.rebalance_condition as rebalance_condition
+from backtest.strategy.rebalance_on_condition import RebalanceOnCondition
+from backtest.strategy.operation_types import Operation
 
 
 class StrategyGenerator:
@@ -178,4 +178,5 @@ class StrategyGenerator:
                                    bt.algos.Rebalance(),
                                ])
         return strategy
+
 

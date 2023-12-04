@@ -3,7 +3,7 @@ from unittest import TestCase
 import bt
 import pandas as pd
 
-from backtest.bt.strategy_generator import StrategyGenerator
+from backtest.strategy.strategy_generator import StrategyGenerator
 from data.data_processing.data_handler import DataHandler
 from data.data_processing.FilterCalculator.market_cap_filter import MarketCapFilter
 from data.data_processing.FilterCalculator.momentum_filter import MomentumFilter
