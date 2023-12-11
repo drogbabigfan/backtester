@@ -29,7 +29,7 @@ class MomentumStrategyBacktest:
         # strategy 생성
         pass
 
-    def get_technical_filtred_df(self, parameter_dict: dict):
+    def get_technical_filtered_df(self, parameter_dict: dict):
         # technical filter 적용
         pass
 
