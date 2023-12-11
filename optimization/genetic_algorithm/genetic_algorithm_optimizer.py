@@ -1,8 +1,6 @@
 from Py_FS.wrapper.nature_inspired import GA
 import numpy as np
 from backtest.bakctester.backtester_for_optimization import BacktesterForOptimization
-
-
 class GeneticAlgorithmOptimizer:
     def __init__(self, encoder, backtest_simulator: BacktesterForOptimization):
         self.encoder = encoder
@@ -23,7 +21,7 @@ class GeneticAlgorithmOptimizer:
 
         # 최적의 파라미터 조합 찾기
         optimal_encoded_params = result.best_agent
-        optimal_params = self.encoder.decode(optimal_encoded_params)
+        optimal_params = self.encoder.decode_to_value(optimal_encoded_params)
         optimal_fitness = result.best_fitness
 
         return optimal_params, optimal_fitness

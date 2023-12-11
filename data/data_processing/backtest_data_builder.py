@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 
 import data.data_processing.filter_calculator as filter_calculator
-from backtest.parameter.momentum_parameters import MomentumParameters
+from backtest.parameter.momentum_parameters.momentum_parameters import MomentumParameters
 from backtest.parameter.parameter_object import ParameterObject
 from data.data_processing.data_handler import DataHandler
 

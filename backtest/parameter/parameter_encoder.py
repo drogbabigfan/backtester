@@ -26,7 +26,30 @@ class ParameterEncoderDecoder:
                 encoded.append(param_options.index(value))
         return encoded
 
-    def decode(self, encoded_params):
+    def decode_to_index(self, encoded_params: list):
+        """
+        인코딩된 파라미터 값을 인덱스 값으로 디코딩합니다.
+        :param encoded_params: list
+        :return:dict
+        """
+        params = {}
+        keys = list(self.parameter_dict.keys())
+        for i, value in enumerate(encoded_params):
+            key = keys[i]
+            if key in self.parameter_dict:
+                param_options = self.parameter_dict[key]
+                int_value = int(value)
+                if isinstance(param_options, dict):
+                    params[key] = int_value
+                else:
+                    params[key] = param_options[int_value]
+            else:
+                params[key] = 0
+
+        return params
+
+
+    def decode_to_value(self, encoded_params: list):
         """
         인코딩된 파라미터 값을 실제 파라미터 값으로 디코딩합니다.
         :param encoded_params: 인코딩된 파라미터 값 리스트

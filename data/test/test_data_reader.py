@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-from data.data_reader import DataReader
+from data.data_reader.data_reader import BackTestDataReader
 
 
 class TestDataReader(TestCase):
     def setUp(self):
-        self.data_reader = DataReader()
+        self.data_reader = BackTestDataReader()
 
     def test_get_marcap_parquet(self):
         df = self.data_reader.get_market_cap_parquet()

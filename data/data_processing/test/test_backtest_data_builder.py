@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from backtest.parameter.momentum_parameters import MomentumParameters
+from backtest.parameter.momentum_parameters.momentum_parameters import MomentumParameters
 from data.data_processing.backtest_data_builder import BacktestDataBuilder
 from data.data_processing.data_handler import DataHandler
 

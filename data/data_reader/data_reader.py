@@ -3,14 +3,14 @@ import os
 import pandas as pd
 
 
-class DataReader:
+class BackTestDataReader:
     def __init__(self):
-        self.raw_data_csv_path = os.path.dirname(os.path.abspath(__file__)) + '/data_collector/csv/raw_data'
-        self.raw_data_parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/data_collector/parquet/raw_data'
+        self.raw_data_csv_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/csv/raw_data'
+        self.raw_data_parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/parquet/raw_data'
         self.processed_data_csv_path = os.path.dirname(
-            os.path.abspath(__file__)) + '/data_processing/processed_data/csv'
+            os.path.abspath(__file__)) + '/../data_processing/processed_data/csv'
         self.processed_data_parquet_path = os.path.dirname(
-            os.path.abspath(__file__)) + '/data_processing/processed_data/parquet'
+            os.path.abspath(__file__)) + '/../data_processing/processed_data/parquet'
 
     def get_market_cap_parquet(self):
         data_path = self.processed_data_parquet_path + "/raw_data/all_marcap.parquet"
@@ -27,7 +27,7 @@ class DataReader:
         data = pd.read_parquet(data_path)
         return data
 
-    def get_momentum_rank_filter_parquet(self, file_name: str):
+    def get_calculated_momentum_rank_parquet(self, file_name: str):
         data_path = self.processed_data_parquet_path + f"/momentum_rank_filter/{file_name}.parquet"
         data = pd.read_parquet(data_path)
         return data
@@ -52,8 +52,8 @@ class DataReader:
         data = pd.read_parquet(data_path)
         return data
 
-    def get_ma_filter_parquet(self, ma: int, file_name: str):
-        data_path = self.processed_data_parquet_path + f"/technical_indicator_filter/ma{ma}/{file_name}.parquet"
+    def get_ma_filter_parquet(self, window: int, file_name: str):
+        data_path = self.processed_data_parquet_path + f"/technical_indicator_filter/ma{window}/{file_name}.parquet"
         data = pd.read_parquet(data_path)
         return data
 

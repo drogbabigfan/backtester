@@ -1,6 +1,10 @@
-from backtest.parameter.momentum_parameters import MomentumParameters
+import pandas as pd
+
+from backtest.bakctester.momentum_backtest.get_calculated_df import GetCalculatedDf
+from backtest.parameter.momentum_parameters.momentum_parameters import MomentumParameters
 from backtest.parameter.parameter_encoder import ParameterEncoderDecoder
 from backtest.strategy.strategy_generator import StrategyGenerator
+from data.data_reader.data_reader import BackTestDataReader
 
 
 class MomentumStrategyBacktest:
@@ -8,30 +12,16 @@ class MomentumStrategyBacktest:
         self.parameter = parameter
         self.strategy_generator = StrategyGenerator()
         self.parameter_encoder = parameter_encoder
+        self.get_data = GetCalculatedDf()
+
 
     def run_backtest(self, parameter_list: list):
         if self.validate_parameter(parameter_list):
             return 0
 
-        parameter_dict = self.parameter_encoder.decode(parameter_list)
+        parameter_dict = self.parameter_encoder.decode_to_index(parameter_list)
 
         # select df 생성 -> 미리 계산된 file 읽어서 사용
-
-    def get_universe_df(self, parameter_dict: dict):
-        # universe 생성
-        pass
-
-    def get_select_df(self, parameter_dict: dict):
-        # select_df 생성
-        pass
-
-    def get_strategy(self, parameter_dict: dict):
-        # strategy 생성
-        pass
-
-    def get_technical_filtered_df(self, parameter_dict: dict):
-        # technical filter 적용
-        pass
 
 
     def evaluation(self, cagr: float, mdd: float):
@@ -44,7 +34,7 @@ class MomentumStrategyBacktest:
 
     # parameter 검증
     def validate_parameter(self, parameter_list: list):
-        parameter_dict = self.parameter_encoder.decode(parameter_list)
+        parameter_dict = self.parameter_encoder.decode_to_value(parameter_list)
 
         # rebalance 주기가 0인 경우
         if parameter_dict['rebalance_periods'] == 0:
