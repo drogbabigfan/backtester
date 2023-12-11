@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from backtest.momentum_strategy_backtest import MomentumStrategyBacktest
+from backtest.bakctester.momentum_strategy_backtester import MomentumStrategyBacktest
 from backtest.parameter.momentum_parameters import MomentumParameters
 from backtest.parameter.parameter_encoder import ParameterEncoderDecoder
 

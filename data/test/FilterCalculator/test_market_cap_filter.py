@@ -1,6 +1,6 @@
 from unittest import TestCase
 import pandas as pd
-from data.data_processing.FilterCalculator.market_cap_filter import MarketCapFilter
+from data.data_processing.filter_calculator.market_cap_filter import MarketCapFilter
 from data.data_processing.data_handler import DataHandler
 
 class TestMarketCapFilter(TestCase):

@@ -6,12 +6,14 @@ from pandas import Series, DataFrame
 
 class DataHandler:
     def __init__(self):
-        self.csv_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/csv'
-        self.parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/parquet'
+        self.raw_data_csv_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/csv'
+        self.raw_data_parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/../data_collector/parquet'
+        self.processed_data_csv_path = os.path.dirname(os.path.abspath(__file__)) + '/processed_data/csv'
+        self.processed_data_parquet_path = os.path.dirname(os.path.abspath(__file__)) + '/processed_data/parquet'
 
     def get_csv_raw_data(self, file_name: str):
         ## file_name 확장자까지 다 필요함
-        raw_data_path = self.csv_path + f"/raw_data/{file_name}"
+        raw_data_path = self.raw_data_csv_path + f"/raw_data/{file_name}"
 
         if os.path.isfile(raw_data_path):
             raw_data = pd.read_csv(raw_data_path, index_col=0, header=0, encoding='utf-8-sig', dtype=str)
@@ -64,3 +66,4 @@ class DataHandler:
         # 일자기준 rank
         result = df.rank(axis=1, ascending=False, method='min')
         return result
+

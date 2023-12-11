@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import pandas as pd
-import backtest.utils as utils
+import backtest.utils.utils as utils
 from backtest.strategy.operation_types import Operation
 
 

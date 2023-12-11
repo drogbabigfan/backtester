@@ -5,10 +5,10 @@ import pandas as pd
 
 from backtest.strategy.strategy_generator import StrategyGenerator
 from data.data_processing.data_handler import DataHandler
-from data.data_processing.FilterCalculator.market_cap_filter import MarketCapFilter
-from data.data_processing.FilterCalculator.momentum_filter import MomentumFilter
-from data.data_processing.FilterCalculator.technical_indicator_filter import TechnicalIndicatorFilter
-from data.data_processing.FilterCalculator.transaction_filter import TransactionFilter
+from data.data_processing.filter_calculator.market_cap_filter import MarketCapFilter
+from data.data_processing.filter_calculator.momentum_filter import MomentumFilter
+from data.data_processing.filter_calculator.technical_indicator_filter import TechnicalIndicatorFilter
+from data.data_processing.filter_calculator.transaction_filter import TransactionFilter
 
 
 class TestStrategyGenerator(TestCase):

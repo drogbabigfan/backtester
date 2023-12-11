@@ -1,7 +1,7 @@
 from unittest import TestCase
 from data.data_processing.data_handler import DataHandler
-from data.data_processing.FilterCalculator.market_cap_filter import MarketCapFilter
-from data.data_processing.FilterCalculator.momentum_filter import MomentumFilter
+from data.data_processing.filter_calculator.market_cap_filter import MarketCapFilter
+from data.data_processing.filter_calculator.momentum_filter import MomentumFilter
 from data.test.FilterCalculator.utils import TestUtils
 
 

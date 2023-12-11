@@ -1,5 +1,8 @@
+from backtest.parameter.parameter_object import ParameterObject
+
+
 class ParameterEncoderDecoder:
-    def __init__(self, parameter_object):
+    def __init__(self, parameter_object: ParameterObject):
         self.parameter_object = parameter_object
         self.parameter_dict = parameter_object.get_parameter_dict()
 

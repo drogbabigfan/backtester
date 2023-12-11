@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from data.data_processing.FilterCalculator.technical_indicator_filter import TechnicalIndicatorFilter
+from data.data_processing.filter_calculator.technical_indicator_filter import TechnicalIndicatorFilter
 from data.test.FilterCalculator.utils import TestUtils
 
 

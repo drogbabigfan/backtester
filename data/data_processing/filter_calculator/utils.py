@@ -67,3 +67,5 @@ class Utils:
             return result
         else:
             print("up_or_down 값이 이상하므로 확인 필요")
+
+

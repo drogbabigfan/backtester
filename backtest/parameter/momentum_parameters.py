@@ -1,4 +1,7 @@
-class MomentumParameters:
+from backtest.parameter.parameter_object import ParameterObject
+
+
+class MomentumParameters(ParameterObject):
     def __init__(self):
         # 백테스팅 실행 주기
         self.rebalance_periods = list(range(1, 13))
@@ -15,21 +18,21 @@ class MomentumParameters:
 
         # 거래량 선택 조건
         self.volume_windows = {0: 0, 1: 5, 2: 10, 3: 20, 4: 40, 5: 60, 6: 120, 7: 250}
-        self.volume_select_criteria = {0: 0, 1: 'large', 2: 'small'}
-        self.volume_select_counts = {0: 0, 1: 0.01, 2: 0.05, 3: 0.1, 4: 0.2, 5: 0.3, 6: 0.4, 7: 0.5}
+        self.volume_select_counts = {0: 0, 1: 0.01, 2: 0.05, 3: 0.1, 4: 0.2, 5: 0.3, 6: 0.4, 7: 0.5,
+                                     8: 10, 9: 25, 10: 50, 11: 100}
 
         # 거래대금 선택 조건
         self.transaction_amount_windows = {0: 0, 1: 5, 2: 10, 3: 20, 4: 40, 5: 60, 6: 120, 7: 250}
-        self.transaction_amount_select_criteria = {0: 0, 1: 'large', 2: 'small'}
-        self.transaction_amount_select_counts = {0: 0, 1: 0.01, 2: 0.05, 3: 0.1, 4: 0.2, 5: 0.3, 6: 0.4, 7: 0.5}
+        self.transaction_amount_select_counts = {0: 0, 1: 0.01, 2: 0.05, 3: 0.1, 4: 0.2, 5: 0.3, 6: 0.4, 7: 0.5,
+                                                 8: 10, 9: 25, 10: 50, 11: 100}
 
         # 거래회전율 선택 조건
         self.turn_over_windows = {0: 0, 1: 5, 2: 10, 3: 20, 4: 40, 5: 60, 6: 120, 7: 250}
-        self.turn_over_select_criteria = {0: 0, 1: 'large', 2: 'small'}
-        self.turn_over_select_counts = {0: 0, 1: 0.01, 2: 0.05, 3: 0.1, 4: 0.2, 5: 0.3, 6: 0.4, 7: 0.5}
+        self.turn_over_select_counts = {0: 0, 1: 0.01, 2: 0.05, 3: 0.1, 4: 0.2, 5: 0.3, 6: 0.4, 7: 0.5,
+                                        8: 10, 9: 25, 10: 50, 11: 100}
 
         # 절대수익률 선택 조건
-        self.absolute_return_windows = {0: 0, 1: 5, 2: 10, 3: 20, 4: 40, 5: 60, 6: 120, 7: 250}
+        self.absolute_return_windows = {0: 0, 1: 3, 2: 5, 3: 10, 4: 20, 5: 40, 6: 60, 7: 120, 8: 250}
         self.absolute_return_select_criteria = {1: 'positive', 2: 'negative'}
 
         # 기술적지표 선택 조건
@@ -63,13 +66,10 @@ class MomentumParameters:
             'market_cap_select_criteria': self.market_cap_select_criteria,
             'market_cap_select_counts': self.market_cap_select_counts,
             'volume_windows': self.volume_windows,
-            'volume_select_criteria': self.volume_select_criteria,
             'volume_select_counts': self.volume_select_counts,
             'transaction_amount_windows': self.transaction_amount_windows,
-            'transaction_amount_select_criteria': self.transaction_amount_select_criteria,
             'transaction_amount_select_counts': self.transaction_amount_select_counts,
             'turn_over_windows': self.turn_over_windows,
-            'turn_over_select_criteria': self.turn_over_select_criteria,
             'turn_over_select_counts': self.turn_over_select_counts,
             'absolute_return_windows': self.absolute_return_windows,
             'absolute_return_select_criteria': self.absolute_return_select_criteria,
@@ -120,26 +120,17 @@ class MomentumParameters:
     def get_volume_windows(self, number: int) -> int:
         return self.volume_windows[number]
 
-    def get_volume_select_criteria(self, number: int) -> str:
-        return self.volume_select_criteria[number]
-
     def get_volume_select_counts(self, number: int) -> float:
         return self.volume_select_counts[number]
 
     def get_transaction_amount_windows(self, number: int) -> int:
         return self.transaction_amount_windows[number]
 
-    def get_transaction_amount_select_criteria(self, number: int) -> str:
-        return self.transaction_amount_select_criteria[number]
-
     def get_transaction_amount_select_counts(self, number: int) -> float:
         return self.transaction_amount_select_counts[number]
 
     def get_turn_over_windows(self, number: int) -> int:
         return self.turn_over_windows[number]
-
-    def get_turn_over_select_criteria(self, number: int) -> str:
-        return self.turn_over_select_criteria[number]
 
     def get_turn_over_select_counts(self, number: int) -> float:
         return self.turn_over_select_counts[number]
@@ -219,26 +210,17 @@ class MomentumParameters:
     def get_volume_windows_index(self) -> list:
         return list(self.volume_windows.keys())
 
-    def get_volume_select_criteria_index(self) -> list:
-        return list(self.volume_select_criteria.keys())
-
     def get_volume_select_counts_index(self) -> list:
         return list(self.volume_select_counts.keys())
 
     def get_transaction_amount_windows_index(self) -> list:
         return list(self.transaction_amount_windows.keys())
 
-    def get_transaction_amount_select_criteria_index(self) -> list:
-        return list(self.transaction_amount_select_criteria.keys())
-
     def get_transaction_amount_select_counts_index(self) -> list:
         return list(self.transaction_amount_select_counts.keys())
 
     def get_turn_over_windows_index(self) -> list:
         return list(self.turn_over_windows.keys())
-
-    def get_turn_over_select_criteria_index(self) -> list:
-        return list(self.turn_over_select_criteria.keys())
 
     def get_turn_over_select_counts_index(self) -> list:
         return list(self.turn_over_select_counts.keys())

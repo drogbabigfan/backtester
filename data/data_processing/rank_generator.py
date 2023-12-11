@@ -7,7 +7,7 @@ from multiprocessing import Pool, cpu_count
 class RankGenerator:
     def __init__(self):
         self.data_handler = DataHandler()
-        self.csv_path = self.data_handler.csv_path
+        self.csv_path = self.data_handler.raw_data_csv_path
 
     def process_file(self, file_name):
         if 'price' in file_name:

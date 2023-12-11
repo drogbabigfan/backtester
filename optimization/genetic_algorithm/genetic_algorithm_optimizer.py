@@ -1,8 +1,10 @@
 from Py_FS.wrapper.nature_inspired import GA
 import numpy as np
+from backtest.bakctester.backtester_for_optimization import BacktesterForOptimization
+
 
 class GeneticAlgorithmOptimizer:
-    def __init__(self, encoder, backtest_simulator):
+    def __init__(self, encoder, backtest_simulator: BacktesterForOptimization):
         self.encoder = encoder
         self.backtest_simulator = backtest_simulator
 

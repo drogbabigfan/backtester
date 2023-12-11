@@ -9,13 +9,29 @@ class MomentumStrategyBacktest:
         self.strategy_generator = StrategyGenerator()
         self.parameter_encoder = parameter_encoder
 
-    def run_backetst(self, parameter_list: list):
+    def run_backtest(self, parameter_list: list):
         if self.validate_parameter(parameter_list):
             return 0
 
         parameter_dict = self.parameter_encoder.decode(parameter_list)
 
         # select df 생성 -> 미리 계산된 file 읽어서 사용
+
+    def get_universe_df(self, parameter_dict: dict):
+        # universe 생성
+        pass
+
+    def get_select_df(self, parameter_dict: dict):
+        # select_df 생성
+        pass
+
+    def get_strategy(self, parameter_dict: dict):
+        # strategy 생성
+        pass
+
+    def get_technical_filtred_df(self, parameter_dict: dict):
+        # technical filter 적용
+        pass
 
 
     def evaluation(self, cagr: float, mdd: float):
@@ -27,18 +43,11 @@ class MomentumStrategyBacktest:
         pass
 
     # parameter 검증
-    def validate_parameter(self, paramter_list: list):
-        parameter_dict = self.parameter_encoder.decode(paramter_list)
+    def validate_parameter(self, parameter_list: list):
+        parameter_dict = self.parameter_encoder.decode(parameter_list)
 
         # rebalance 주기가 0인 경우
         if parameter_dict['rebalance_periods'] == 0:
-            return True
-
-        # market cap == small and (volume == small or transaction == samll or turn_over == small) 인 경우
-        if parameter_dict['market_cap_select_criteria'] == 'small' and (
-                parameter_dict['volume_select_criteria'] == 'small'
-                or parameter_dict['transaction_select_criteria'] == 'small' or
-                parameter_dict['turn_over_select_criteria'] == 'small'):
             return True
 
         # 불가능한 case1. 정배열 역배열 동시에 true

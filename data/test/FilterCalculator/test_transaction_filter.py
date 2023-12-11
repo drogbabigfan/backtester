@@ -1,5 +1,5 @@
 from unittest import TestCase
-from data.data_processing.FilterCalculator.transaction_filter import TransactionFilter
+from data.data_processing.filter_calculator.transaction_filter import TransactionFilter
 from utils import TestUtils
 
 class TestTransactionFilter(TestCase):
