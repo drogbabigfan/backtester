@@ -1,7 +1,7 @@
 from unittest import TestCase
 import numpy as np
 import pandas as pd
-from backtest.bakctester.momentum_backtest.momentum_strategy_backtest import MomentumStrategyBacktest
+from backtest.bakctester.momentum_backtest.momentum_strategy_backtester import MomentumStrategyBacktester
 from backtest.parameter.momentum_parameters.momentum_parameters import MomentumParameters
 from backtest.parameter.parameter_encoder import ParameterEncoderDecoder
 
@@ -10,7 +10,7 @@ class TestMomentumStrategyBacktest(TestCase):
     def setUp(self):
         self.parameter = MomentumParameters()
         self.encoder = ParameterEncoderDecoder(self.parameter)
-        self.backtester = MomentumStrategyBacktest(self.parameter, self.encoder)
+        self.backtester = MomentumStrategyBacktester(self.parameter, self.encoder)
 
     def test_run_backetst(self):
         self.fail()
@@ -28,8 +28,8 @@ class TestMomentumStrategyBacktest(TestCase):
         all_zero_parm = np.zeros(parm_length)
         all_one_parm = np.ones(parm_length)
 
-        result_one = self.backtester.validate_parameter(all_zero_parm)
-        result_two = self.backtester.validate_parameter(all_one_parm)
+        result_one = self.backtester.is_not_validate_parameter(all_zero_parm)
+        result_two = self.backtester.is_not_validate_parameter(all_one_parm)
 
         self.assertEqual(result_one, False)
         self.assertEqual(result_two, True)
@@ -41,7 +41,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(all_one_parm)
 
         # test
-        result = self.backtester.get_data.get_market_cap_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_market_cap_filter_df(parameter_dict)
         print(result)
 
 
@@ -52,7 +52,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(all_one_parm)
 
         # test
-        result = self.backtester.get_data.get_volume_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_volume_filter_df(parameter_dict)
         print(result)
 
     def test_get_transaction_amount_filter_df(self):
@@ -62,7 +62,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(all_one_parm)
 
         # test
-        result = self.backtester.get_data.get_transaction_amount_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_transaction_amount_filter_df(parameter_dict)
         print(result)
 
     def test_get_turn_over_filter_df(self):
@@ -73,7 +73,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(random_parm)
 
         # test
-        result = self.backtester.get_data.get_turn_over_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_turn_over_filter_df(parameter_dict)
         print(result)
 
     def test_get_absolute_return_filter_df(self):
@@ -84,7 +84,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(random_parm)
 
         # test
-        result = self.backtester.get_data.get_absolute_return_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_absolute_return_filter_df(parameter_dict)
         print(result)
 
     def test_empty_df_mulitply(self):
@@ -95,7 +95,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(random_parm)
 
         # test
-        result = self.backtester.get_data.get_absolute_return_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_absolute_return_filter_df(parameter_dict)
         result2 = result & True
 
         # result == result 검증
@@ -112,8 +112,8 @@ class TestMomentumStrategyBacktest(TestCase):
         one_dict = self.encoder.decode_to_index(one_parm)
 
         # test
-        result = self.backtester.get_data.get_absolute_return_filter_df(parameter_dict)
-        result2 = self.backtester.get_data.get_absolute_return_filter_df(one_dict)
+        result = self.backtester.get_calculated_df.get_absolute_return_filter_df(parameter_dict)
+        result2 = self.backtester.get_calculated_df.get_absolute_return_filter_df(one_dict)
 
         test1 = result & result2
         test2 = result * result2
@@ -129,7 +129,7 @@ class TestMomentumStrategyBacktest(TestCase):
         parameter_dict = self.encoder.decode_to_index(random_parm)
 
         # test
-        result = self.backtester.get_data.get_ma_break_filter_df(parameter_dict)
+        result = self.backtester.get_calculated_df.get_ma_break_filter_df(parameter_dict)
         print(result)
 
 

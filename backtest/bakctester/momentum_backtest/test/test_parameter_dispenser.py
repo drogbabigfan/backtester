@@ -72,7 +72,7 @@ class TestParameterDispenser(TestCase):
 
 def test_get_type_four_momentum_strategy(self):
     test_param = [1, 3, 7, 1, 5, 7, 1, 7, 5, 7, 7, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-    parameter_dict = self.encoder.decode_to_index(test_param)
+    parameter_dict = self.parameter_encoder.decode_to_index(test_param)
     print("parameter_dict : ", parameter_dict)
 
     get_momentum_strategy = self.parameter_dispenser.get_momentum_strategy(parameter_dict, self.price_df)
@@ -81,7 +81,7 @@ def test_get_type_four_momentum_strategy(self):
 
 def test_get_type_five_momentum_strategy(self):
     test_param = [1, 4, 7, 1, 5, 7, 1, 7, 5, 7, 7, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-    parameter_dict = self.encoder.decode_to_index(test_param)
+    parameter_dict = self.parameter_encoder.decode_to_index(test_param)
     print("parameter_dict : ", parameter_dict)
 
     get_momentum_strategy = self.parameter_dispenser.get_momentum_strategy(parameter_dict, self.price_df)

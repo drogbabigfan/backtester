@@ -7,9 +7,9 @@ from backtest.strategy.strategy_generator import StrategyGenerator
 
 
 class ParameterDispenser:
-    def __init__(self):
-        self.momentum_parameters = MomentumParameters()
-        self.get_calculated_df = GetCalculatedDf(self.momentum_parameters)
+    def __init__(self, momentum_parameters: MomentumParameters, get_calculated_df: GetCalculatedDf):
+        self.momentum_parameters = momentum_parameters
+        self.get_calculated_df = get_calculated_df
         self.strategy_generator = StrategyGenerator()
         self.momentum_filter = GetMomentumFilter()
 
@@ -84,7 +84,8 @@ class ParameterDispenser:
 
         return strategy
 
-    def get_type_three_momentum_strategy(self, parameter_dict: dict, momentum_rank: pd.DataFrame) -> bt.Strategy or None:
+    def get_type_three_momentum_strategy(self, parameter_dict: dict,
+                                         momentum_rank: pd.DataFrame) -> bt.Strategy or None:
         universe = self.get_calculated_df.get_universe_df(parameter_dict)
         up_or_down = parameter_dict['momentum_select_criteria']
         threshold = parameter_dict['momentum_select_counts']
@@ -146,7 +147,6 @@ class ParameterDispenser:
         strategy = self.strategy_generator.get_strategy(strategy_name, select_df)
 
         return strategy
-
 
     def generate_strategy_name(self, parameter_dict: dict):
         strategy_name = ''
