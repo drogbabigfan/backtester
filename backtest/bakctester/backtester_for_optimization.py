@@ -12,6 +12,6 @@ class BacktesterForOptimization(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def save_backtest_data(self, backtest_result: pd.DataFrame):
+    def save_backtest_result(self, strategy_name:str, backtest_result: pd.DataFrame):
         pass
 
