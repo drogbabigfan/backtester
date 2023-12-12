@@ -272,3 +272,5 @@ class MomentumParameters(ParameterObject):
 
     def get_ma_negative_arranged_index(self) -> list:
         return list(self.ma_negative_arranged.keys())
+
+

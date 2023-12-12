@@ -1,11 +1,13 @@
 import pandas as pd
 
+from backtest.parameter.momentum_parameters.momentum_parameters import MomentumParameters
 from data.data_reader.data_reader import BackTestDataReader
 
 
 class GetCalculatedDf:
-    def __init__(self):
+    def __init__(self, momentum_parameter: MomentumParameters):
         self.data_reader = BackTestDataReader()
+        self.momentum_parameter = momentum_parameter
 
     def get_universe_df(self, parameter_dict: dict) -> pd.DataFrame:
         market_cap = self.get_market_cap_filter_df(parameter_dict)
@@ -20,14 +22,20 @@ class GetCalculatedDf:
         momentum_rank = self.get_momentum_rank_df(parameter_dict)
         ma_arranged = self.get_ma_arranged_filter_df(parameter_dict)
 
-        universe = market_cap & volume & transaction_amount & turn_over & absolute_return & ma_break & bband_break & bband_pctb & bband_width & momentum_rank & ma_arranged
+        universe = (market_cap & volume & transaction_amount & turn_over & absolute_return & ma_break & bband_break
+                    & bband_pctb & bband_width & momentum_rank & ma_arranged)
 
         return universe
 
-    def get_market_cap_filter_df(self, parameter_dict: dict) -> pd.DataFrame:
+    def get_market_cap_filter_df(self, parameter_dict: dict) -> pd.DataFrame or bool:
         market_cap_window = parameter_dict['market_cap_windows']
         market_cap_select_criteria = parameter_dict['market_cap_select_criteria']
         market_cap_select_count = parameter_dict['market_cap_select_counts']
+
+        validate = self.check_market_cap_parameter_validate(market_cap_window, market_cap_select_criteria,
+                                                            market_cap_select_count)
+        if validate:
+            return False
 
         file_name = f"{market_cap_window}_{market_cap_select_criteria}_{market_cap_select_count}"
 
@@ -36,11 +44,30 @@ class GetCalculatedDf:
 
         return marcap_df
 
-    def get_volume_filter_df(self, parameter_dict: dict) -> pd.DataFrame or True:
+    def check_market_cap_parameter_validate(self, market_cap_window: int, market_cap_select_criteria: str,
+                                            market_cap_select_count: int) -> bool:
+        window_range = self.momentum_parameter.get_market_cap_windows_index()
+        criteria_range = self.momentum_parameter.get_market_cap_select_criteria_index()
+        count_range = self.momentum_parameter.get_market_cap_select_counts_index()
+
+        not_in_window = market_cap_window not in window_range
+        not_in_criteria = market_cap_select_criteria not in criteria_range
+        not_in_count = market_cap_select_count not in count_range
+
+        if not_in_window or not_in_criteria or not_in_count:
+            return True
+
+    def get_volume_filter_df(self, parameter_dict: dict) -> pd.DataFrame or bool:
         volume_windows = parameter_dict['volume_windows']
         volume_select_counts = parameter_dict['volume_select_counts']
+        is_zero = volume_windows == 0 or volume_select_counts == 0
 
-        if volume_windows == 0:
+        validate = self.check_volume_parameter_validate(volume_windows, volume_select_counts)
+
+        if validate:
+            return False
+
+        if is_zero:
             return True
 
         file_name = f"{volume_windows}_{volume_select_counts}"
@@ -50,11 +77,28 @@ class GetCalculatedDf:
 
         return volume_df
 
+    def check_volume_parameter_validate(self, volume_windows: int, volume_select_counts: int) -> bool:
+        window_range = self.momentum_parameter.get_volume_windows_index()
+        count_range = self.momentum_parameter.get_volume_select_counts_index()
+
+        not_in_window = volume_windows not in window_range
+        not_in_count = volume_select_counts not in count_range
+
+        if not_in_window or not_in_count:
+            return True
+
     def get_transaction_amount_filter_df(self, parameter_dict: dict) -> pd.DataFrame or True:
         transaction_amount_windows = parameter_dict['transaction_amount_windows']
         transaction_amount_select_counts = parameter_dict['transaction_amount_select_counts']
+        is_zero = transaction_amount_windows == 0 or transaction_amount_select_counts == 0
 
-        if transaction_amount_windows == 0:
+        validate = self.check_transaction_amount_parameter_validate(transaction_amount_windows,
+                                                                    transaction_amount_select_counts)
+
+        if validate:
+            return False
+
+        if is_zero:
             return True
 
         file_name = f"{transaction_amount_windows}_{transaction_amount_select_counts}"
@@ -64,11 +108,28 @@ class GetCalculatedDf:
 
         return transaction_amount_df
 
+    def check_transaction_amount_parameter_validate(self, transaction_amount_windows: int,
+                                                    transaction_amount_select_counts: int) -> bool:
+        window_range = self.momentum_parameter.get_transaction_amount_windows_index()
+        count_range = self.momentum_parameter.get_transaction_amount_select_counts_index()
+
+        not_in_window = transaction_amount_windows not in window_range
+        not_in_count = transaction_amount_select_counts not in count_range
+
+        if not_in_window or not_in_count:
+            return True
+
     def get_turn_over_filter_df(self, parameter_dict: dict) -> pd.DataFrame or True:
         turn_over_windows = parameter_dict['turn_over_windows']
         turn_over_select_counts = parameter_dict['turn_over_select_counts']
+        is_zero = turn_over_windows == 0 or turn_over_select_counts == 0
 
-        if turn_over_windows == 0:
+        validate = self.check_turn_over_parameter_validate(turn_over_windows, turn_over_select_counts)
+
+        if validate:
+            return False
+
+        if is_zero:
             return True
 
         file_name = f"{turn_over_windows}_{turn_over_select_counts}"
@@ -77,6 +138,17 @@ class GetCalculatedDf:
         turn_over_df = self.data_reader.get_turn_over_filter_parquet(file_name)
 
         return turn_over_df
+
+    def check_turn_over_parameter_validate(self, turn_over_windows: int, turn_over_select_counts: int) -> bool:
+        window_range = self.momentum_parameter.get_turn_over_windows_index()
+        count_range = self.momentum_parameter.get_turn_over_select_counts_index()
+
+        not_in_window = turn_over_windows not in window_range
+        not_in_count = turn_over_select_counts not in count_range
+
+        if not_in_window or not_in_count:
+            return True
+
 
     def get_absolute_return_filter_df(self, parameter_dict: dict) -> pd.DataFrame or True:
         absolute_return_windows = parameter_dict['absolute_return_windows']
@@ -176,7 +248,7 @@ class GetCalculatedDf:
         positive = parameter_dict['ma_positive_arranged']
         negative = parameter_dict['ma_negative_arranged']
 
-        if positive == 1 and negative == 1:
+        if (positive == 1 and negative == 1) or (positive == 0 and negative == 0):
             return True
 
         if positive == 1:

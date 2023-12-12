@@ -36,15 +36,21 @@ class ParameterEncoderDecoder:
         keys = list(self.parameter_dict.keys())
         for i, value in enumerate(encoded_params):
             key = keys[i]
+
             if key in self.parameter_dict:
                 param_options = self.parameter_dict[key]
                 int_value = int(value)
+
                 if isinstance(param_options, dict):
+                    if int_value not in param_options:
+                        return self.error_case()
                     params[key] = int_value
                 else:
-                    params[key] = param_options[int_value]
+                    if int_value < 0 or int_value >= len(param_options):
+                        return self.error_case()
+                    params[key] = int_value
             else:
-                params[key] = 0
+                return self.error_case()
 
         return params
 
@@ -63,9 +69,21 @@ class ParameterEncoderDecoder:
                 param_options = self.parameter_dict[key]
                 int_value = int(value)  # numpy.float64를 int 타입으로 변환
                 if isinstance(param_options, dict):
+                    if int_value not in param_options:
+                        return self.error_case()
                     params[key] = param_options.get(int_value, 0)
                 else:
+                    if int_value < 0 or int_value >= len(param_options):
+                        return self.error_case()
                     params[key] = param_options[int_value]
             else:
-                params[key] = 0
+                return self.error_case()
+        return params
+
+
+    def error_case(self):
+        params = {}
+        keys = list(self.parameter_dict.keys())
+        for key in keys:
+            params[key] = 0
         return params

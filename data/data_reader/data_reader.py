@@ -28,7 +28,7 @@ class BackTestDataReader:
         return data
 
     def get_calculated_momentum_rank_parquet(self, file_name: str):
-        data_path = self.processed_data_parquet_path + f"/momentum_rank_filter/{file_name}.parquet"
+        data_path = self.processed_data_parquet_path + f"/calculated_momentum_rank/{file_name}.parquet"
         data = pd.read_parquet(data_path)
         return data
 

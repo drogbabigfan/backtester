@@ -197,32 +197,27 @@ class BacktestDataBuilder:
         # 병렬 처리를 위한 ThreadPoolExecutor 사용
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # futures 리스트 생성
-            futures = {executor.submit(self.process_period_return_data, window, raw_data): window
-                       for window in momentum_windows}
+            futures = {executor.submit(self.process_period_return_data, key, values, raw_data): key
+                       for key, values in momentum_windows.items()}
 
-            # tqdm을 사용하여 progress bar 추가
             for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc="Processing Filters"):
-                window = futures[future]
+                key = futures[future]
                 try:
                     result = future.result()
                 except Exception as e:
-                    print(f"{window} generated an exception: {e}")
-                    print(f"{window} is skipped.")
+                    print(f"{key} generated an exception: {e}")
+                    print(f"{key} is skipped.")
                 else:
-                    print(f"{window} is processed.")
+                    print(f"{key} is processed.")
 
-    def process_period_return_data(self, window, raw_data):
+    def process_period_return_data(self, key, values, raw_data):
         result = pd.DataFrame()
 
-        if window == 0:
-            print(f"{window} is skipped.")
-            return
-
         absolute_return_filter = self.filter_calculator.momentum_filter
-        result = absolute_return_filter.calculate_period_return(raw_data=raw_data, window=window)
+        result = absolute_return_filter.calculate_period_return(raw_data=raw_data, window=values)
 
         if not result.empty:
-            self.save_file(result, "period_return_data", window)
+            self.save_file(result, "period_return_data", key)
 
     def generate_momentum_rank_data(self, raw_data: pd.DataFrame):
         momentum_windows = self.parameter_dict['momentum_windows']
@@ -230,33 +225,28 @@ class BacktestDataBuilder:
         # 병렬 처리를 위한 ThreadPoolExecutor 사용
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # futures 리스트 생성
-            futures = {executor.submit(self.process_momentum_rank_data, window, raw_data): window
-                       for window in momentum_windows}
+            futures = {executor.submit(self.process_momentum_rank_data, key, values, raw_data): key
+                       for key, values in momentum_windows.items()}
 
-            # tqdm을 사용하여 progress bar 추가
             for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc="Processing Filters"):
-                window = futures[future]
+                key = futures[future]
                 try:
                     result = future.result()
                 except Exception as e:
-                    print(f"{window} generated an exception: {e}")
-                    print(f"{window} is skipped.")
+                    print(f"{key} generated an exception: {e}")
+                    print(f"{key} is skipped.")
                 else:
-                    print(f"{window} is processed.")
+                    print(f"{key} is processed.")
 
-    def process_momentum_rank_data(self, window, raw_data):
+    def process_momentum_rank_data(self, key, values, raw_data):
         result = pd.DataFrame()
 
-        if window == 0:
-            print(f"{window} is skipped.")
-            return
-
-        absolute_return_filter = self.filter_calculator.momentum_filter
-        result = absolute_return_filter.calculate_period_return(raw_data=raw_data, window=window)
-        result = absolute_return_filter.util.calculate_rank(result)
+        momentum_filter = self.filter_calculator.momentum_filter
+        period_return = momentum_filter.calculate_period_return(raw_data=raw_data, window=values)
+        result = momentum_filter.util.calculate_rank(period_return)
 
         if not result.empty:
-            self.save_file(result, "momentum_rank_data", window)
+            self.save_file(result, "calculated_momentum_rank", key)
 
     def generate_ma_breakout_filter(self, raw_data: pd.DataFrame):
         ma_list = [5, 10, 20, 60, 120, 250]
@@ -384,34 +374,34 @@ class BacktestDataBuilder:
         turn_over_df = transaction_value_df / marcap_df
 
         print("Generating Filters...")
-        print("Generating Market Cap Filter...")
-        self.generate_market_cap_filter(marcap_df)
-        print("Generating Transaction Amount Filter...")
-        self.generate_transaction_amount_filter(transaction_value_df)
-        print("Generating Turn Over Filter...")
-        self.generate_turn_over_filter(turn_over_df)
-        print("Generating Volume Filter...")
-        self.generate_volume_filter(volume_df)
-        print("Generating Absolute Return Filter...")
-        self.generate_absolute_return_filter(marcap_df)
+        # print("Generating Market Cap Filter...")
+        # self.generate_market_cap_filter(marcap_df)
+        # print("Generating Transaction Amount Filter...")
+        # self.generate_transaction_amount_filter(transaction_value_df)
+        # print("Generating Turn Over Filter...")
+        # self.generate_turn_over_filter(turn_over_df)
+        # print("Generating Volume Filter...")
+        # self.generate_volume_filter(volume_df)
+        # print("Generating Absolute Return Filter...")
+        # self.generate_absolute_return_filter(marcap_df)
         print("Generating Period Return Data...")
         self.generate_period_return_data(marcap_df)
         print("Generating Momentum Rank Data...")
         self.generate_momentum_rank_data(marcap_df)
 
         # ta filter
-        print("Generating MA Breakout Filter...")
-        self.generate_ma_breakout_filter(marcap_df)
-        print("Generating Bollinger Band Breakout Filter...")
-        self.generate_bollinger_band_breakout_filter(marcap_df)
-        print("Generating Bollinger Band Width Filter...")
-        self.generate_bband_width_filter(marcap_df)
-        print("Generating Bollinger Band Pctb Filter...")
-        self.generate_bband_pctb_filter(marcap_df)
-        print("Generating MA Positive Arranged Filter...")
-        self.generate_ma_positive_arranged_filter(marcap_df)
-        print("Generating MA Negative Arranged Filter...")
-        self.generate_ma_negative_arranged_filter(marcap_df)
+        # print("Generating MA Breakout Filter...")
+        # self.generate_ma_breakout_filter(marcap_df)
+        # print("Generating Bollinger Band Breakout Filter...")
+        # self.generate_bollinger_band_breakout_filter(marcap_df)
+        # print("Generating Bollinger Band Width Filter...")
+        # self.generate_bband_width_filter(marcap_df)
+        # print("Generating Bollinger Band Pctb Filter...")
+        # self.generate_bband_pctb_filter(marcap_df)
+        # print("Generating MA Positive Arranged Filter...")
+        # self.generate_ma_positive_arranged_filter(marcap_df)
+        # print("Generating MA Negative Arranged Filter...")
+        # self.generate_ma_negative_arranged_filter(marcap_df)
 
     @staticmethod
     def generate_combinations(*dicts):

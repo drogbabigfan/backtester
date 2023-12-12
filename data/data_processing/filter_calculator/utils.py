@@ -46,7 +46,8 @@ class Utils:
             result = self.get_high_n_quantity(df, threshold)
             return result
         else:
-            print("Threshold 값이 이상하므로 확인 필요")
+            print("Threshold 값이 이상하므로 확인 필요 : ", threshold)
+            return self.error_case(df)
 
     def select_down_logic(self, df: pd.DataFrame, threshold: float):
         if 0 < threshold < 1:
@@ -56,7 +57,8 @@ class Utils:
             result = self.get_low_n_quantity(df, threshold)
             return result
         else:
-            print("Threshold 값이 이상하므로 확인 필요")
+            print("Threshold 값이 이상하므로 확인 필요 : ", threshold)
+            return self.error_case(df)
 
     def select_logic(self, df: pd.DataFrame, up_or_down: str, threshold: float):
         if up_or_down == 'up':
@@ -66,6 +68,9 @@ class Utils:
             result = self.select_down_logic(df, threshold)
             return result
         else:
-            print("up_or_down 값이 이상하므로 확인 필요")
+            print("up_or_down 값이 이상하므로 확인 필요 : ", up_or_down)
+            return self.error_case(df)
 
 
+    def error_case(self, df: pd.DataFrame):
+        return df & False
