@@ -76,8 +76,8 @@ class StrategyGenerator:
 
         strategy = bt.Strategy(name=startegy_name,
                                algos=[
-                                   operation_condition,
                                    bt.algos.SelectWhere(select_df),
+                                   operation_condition,
                                    bt.algos.WeighEqually(),
                                    bt.algos.Rebalance(),
                                ])
@@ -89,8 +89,8 @@ class StrategyGenerator:
 
         strategy = bt.Strategy(name=startegy_name,
                                algos=[
-                                   operation_condition,
                                    bt.algos.SelectWhere(select_df),
+                                   operation_condition,
                                    bt.algos.WeighEqually(),
                                    bt.algos.Rebalance(),
                                ])
@@ -132,8 +132,8 @@ class StrategyGenerator:
 
         strategy = bt.Strategy(name=startegy_name,
                                algos=[
-                                   operation_condition,
                                    bt.algos.SelectWhere(select_df),
+                                   operation_condition,
                                    bt.algos.WeighEqually(),
                                    bt.algos.Rebalance(),
                                ])
@@ -145,8 +145,8 @@ class StrategyGenerator:
 
         strategy = bt.Strategy(name=startegy_name,
                                algos=[
-                                   operation_condition,
                                    bt.algos.SelectWhere(select_df),
+                                   operation_condition,
                                    bt.algos.WeighEqually(),
                                    bt.algos.Rebalance(),
                                ])
@@ -155,7 +155,7 @@ class StrategyGenerator:
 
 
     def create_quarterly_first_buy_last_sell(self, startegy_name: str, select_df: pd.DataFrame):
-        run_logic = rebalance_condition.QuarterlyFristBuyLastSell()
+        run_logic = rebalance_condition.QuarterlyFirstBuyLastSell()
         buy_condition = RebalanceOnCondition(run_logic, operation=self.operation.BUY)
         sell_condition = RebalanceOnCondition(run_logic, operation=self.operation.SELL)
 
@@ -190,8 +190,8 @@ class StrategyGenerator:
 
         strategy = bt.Strategy(name=startegy_name,
                                algos=[
-                                   operation_condition,
                                    bt.algos.SelectWhere(select_df),
+                                   operation_condition,
                                    bt.algos.WeighEqually(),
                                    bt.algos.Rebalance(),
                                ])
@@ -203,8 +203,8 @@ class StrategyGenerator:
 
         strategy = bt.Strategy(name=startegy_name,
                                algos=[
-                                   operation_condition,
                                    bt.algos.SelectWhere(select_df),
+                                   operation_condition,
                                    bt.algos.WeighEqually(),
                                    bt.algos.Rebalance(),
                                ])

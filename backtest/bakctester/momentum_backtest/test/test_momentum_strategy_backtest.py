@@ -34,3 +34,19 @@ class TestMomentumStrategyBacktest(TestCase):
         test_param = [1, 3, 7, 1, 5, 7, 1, 7, 5, 7, 7, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
         result = self.momentum_strategy_backtest.is_not_validate_parameter(test_param)
         self.assertEqual(result, False)
+
+    def test_run_backtest_key_error(self):
+        param = [5, 2, 2, 2, 1, 4, 1, 6, 4, 11, 0, 11, 7, 0, 2, 1]
+        result = self.momentum_strategy_backtest.run_backtest(param)
+        print(result)
+
+    def test_run_backtest_key_error2(self):
+        param = [1, 1, 6, 1, 5, 7, 1, 7, 5, 7, 7, 3, 1, 1, 4, 1]
+        result = self.momentum_strategy_backtest.run_backtest(param)
+
+        print(result.stats)
+        print(result.stats.T.columns)
+        result = result.stats.T
+        print(result['cagr'])
+        print(result['max_drawdown'])
+

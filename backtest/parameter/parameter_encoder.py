@@ -61,6 +61,10 @@ class ParameterEncoderDecoder:
         :param encoded_params: 인코딩된 파라미터 값 리스트
         :return: 딕셔너리 형태의 파라미터 값
         """
+
+        if encoded_params[2] == 0:
+            print(encoded_params)
+
         params = {}
         keys = list(self.parameter_dict.keys())
         for i, value in enumerate(encoded_params):

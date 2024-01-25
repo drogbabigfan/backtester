@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="backtest_bt" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="backtest_bt" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="backest_v1" project-jdk-type="Python SDK" />
 </project>

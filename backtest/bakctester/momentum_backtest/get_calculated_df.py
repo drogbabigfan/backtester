@@ -15,15 +15,17 @@ class GetCalculatedDf:
         transaction_amount = self.get_transaction_amount_filter_df(parameter_dict)
         turn_over = self.get_turn_over_filter_df(parameter_dict)
         absolute_return = self.get_absolute_return_filter_df(parameter_dict)
-        ma_break = self.get_ma_break_filter_df(parameter_dict)
-        bband_break = self.get_bband_break_filter_df(parameter_dict)
-        bband_pctb = self.get_bband_pctb_filter_df(parameter_dict)
-        bband_width = self.get_bband_width_filter_df(parameter_dict)
-        momentum_rank = self.get_momentum_rank_df(parameter_dict)
-        ma_arranged = self.get_ma_arranged_filter_df(parameter_dict)
+        # ma_break = self.get_ma_break_filter_df(parameter_dict)
+        # bband_break = self.get_bband_break_filter_df(parameter_dict)
+        # bband_pctb = self.get_bband_pctb_filter_df(parameter_dict)
+        # bband_width = self.get_bband_width_filter_df(parameter_dict)
+        # momentum_rank = self.get_momentum_rank_df(parameter_dict)
+        # ma_arranged = self.get_ma_arranged_filter_df(parameter_dict)
 
-        universe = (market_cap & volume & transaction_amount & turn_over & absolute_return & ma_break & bband_break
-                    & bband_pctb & bband_width & momentum_rank & ma_arranged)
+        # universe = (market_cap & volume & transaction_amount & turn_over & absolute_return & ma_break & bband_break
+        #             & bband_pctb & bband_width & momentum_rank & ma_arranged)
+
+        universe = (market_cap & volume & transaction_amount & turn_over & absolute_return)
 
         return universe
 

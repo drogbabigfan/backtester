@@ -6,7 +6,6 @@ from backtest.bakctester.momentum_backtest.get_calculated_df import GetCalculate
 from backtest.bakctester.momentum_backtest.parameter_dispenser import ParameterDispenser
 from backtest.parameter.momentum_parameters.momentum_parameters import MomentumParameters
 from backtest.parameter.parameter_encoder import ParameterEncoderDecoder
-from backtest.strategy.strategy_generator import StrategyGenerator
 from data.data_reader.data_reader import BackTestDataReader
 from db.backtest_result.momentum_strategy.backest_result_service import BacktestResultService
 
@@ -34,6 +33,7 @@ class MomentumStrategyBacktester(BacktesterForOptimization):
             return 0
 
         backtest = bt.Backtest(strategy, price_data)
+
         result = bt.run(backtest)
 
         return result
